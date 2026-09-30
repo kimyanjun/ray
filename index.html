@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Beautiful Website</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            color: white;
+            background: linear-gradient(
+                135deg,
+                #0f172a,
+                #1e1b4b,
+                #312e81,
+                #0f172a
+            );
+            background-size: 400% 400%;
+            animation: backgroundMove 12s ease infinite;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        @keyframes backgroundMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #60a5fa;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            left: 0;
+            bottom: -6px;
+            background: #60a5fa;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #60a5fa;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 20px 40px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeUp 1.2s ease forwards;
+        }
+
+        .hero h1 {
+            font-size: clamp(45px, 8vw, 85px);
+            margin-bottom: 20px;
+
+            background: linear-gradient(
+                90deg,
+                #60a5fa,
+                #a78bfa,
+                #f472b6
+            );
+
+            -webkit-background-clip: text;
+            color: transparent;
+
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        .hero p {
+            font-size: 20px;
+            line-height: 1.7;
+            color: #dbeafe;
+            margin-bottom: 35px;
+        }
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            padding: 15px 32px;
+            border-radius: 50px;
+
+            background: linear-gradient(
+                135deg,
+                #3b82f6,
+                #8b5cf6
+            );
+
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+
+            box-shadow: 0 10px 30px rgba(59,130,246,0.3);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.04);
+            box-shadow: 0 15px 40px rgba(139,92,246,0.5);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Cards */
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            padding: 80px 8%;
+        }
+
+        .card {
+            width: 280px;
+            padding: 30px;
+            text-align: center;
+
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+
+            backdrop-filter: blur(15px);
+
+            transition:
+                transform 0.4s ease,
+                background 0.4s ease,
+                box-shadow 0.4s ease;
+
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            transform: translateY(-12px) scale(1.03);
+            background: rgba(255,255,255,0.14);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .card-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            margin-bottom: 12px;
+            color: #93c5fd;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        /* Floating circles */
+        .circle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(2px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .circle.one {
+            width: 200px;
+            height: 200px;
+            background: #3b82f6;
+            top: 15%;
+            left: -70px;
+            animation: floatOne 7s ease-in-out infinite;
+        }
+
+        .circle.two {
+            width: 250px;
+            height: 250px;
+            background: #a855f7;
+            bottom: 10%;
+            right: -90px;
+            animation: floatTwo 9s ease-in-out infinite;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 5px rgba(96,165,250,0.2));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 25px rgba(167,139,250,0.6));
+            }
+        }
+
+        @keyframes floatOne {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            50% {
+                transform: translateY(-50px) translateX(40px);
+            }
+        }
+
+        @keyframes floatTwo {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            50% {
+                transform: translateY(40px) translateX(-50px);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            nav {
+                padding: 18px 5%;
+            }
+
+            nav .links {
+                display: none;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .cards {
+                padding: 50px 20px;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">MY WEBSITE</div>
+
+        <div class="links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
+
+    <div class="circle one"></div>
+    <div class="circle two"></div>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+
+            <h1>Welcome</h1>
+
+            <p>
+                Welcome to my beautiful website.
+                Experience smooth animations, modern design,
+                and interactive effects.
+            </p>
+
+            <a href="#features" class="btn">
+                Explore More
+            </a>
+
+        </div>
+    </section>
+
+    <section class="cards" id="features">
+
+        <div class="card">
+            <div class="card-icon">🎨</div>
+            <h2>Beautiful Design</h2>
+            <p>
+                A modern interface with gradients,
+                glass effects and smooth transitions.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">⚡</div>
+            <h2>Fast & Smooth</h2>
+            <p>
+                Lightweight animations make the
+                website feel responsive and alive.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">📱</div>
+            <h2>Responsive</h2>
+            <p>
+                The design automatically adapts to
+                phones, tablets and computers.
+            </p>
+        </div>
+
+    </section>
+
+    <section class="hero" id="about">
+
+        <div class="hero-content">
+
+            <h1>About</h1>
+
+            <p>
+                This website was created using
+                HTML, CSS and JavaScript.
+            </p>
+
+            <a href="#home" class="btn">
+                Back to Top
+            </a>
+
+        </div>
+
+    </section>
+
+    <footer>
+        © 2026 My Website. All rights reserved.
+    </footer>
+
+
+    <script>
+        // Reveal cards when they enter the screen
+        const cards = document.querySelectorAll(".card");
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+
+                entries.forEach((entry, index) => {
+
+                    if (entry.isIntersecting) {
+
+                        setTimeout(() => {
+                            entry.target.classList.add("show");
+                        }, index * 150);
+
+                        observer.unobserve(entry.target);
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.2
+            }
+        );
+
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+
+
+        // Button click animation
+        const buttons = document.querySelectorAll(".btn");
+
+        buttons.forEach(button => {
+
+            button.addEventListener("click", function() {
+
+                this.style.transform = "scale(0.92)";
+
+                setTimeout(() => {
+                    this.style.transform = "";
+                }, 150);
+
+            });
+
+        });
+
+
+        // Mouse-follow glow effect
+        document.addEventListener("mousemove", (event) => {
+
+            const x = event.clientX;
+            const y = event.clientY;
+
+            document.body.style.backgroundPosition =
+                `${x / window.innerWidth * 100}% 
+                 ${y / window.innerHeight * 100}%`;
+
+        });
+    </script>
+
+</body>
+</html>
